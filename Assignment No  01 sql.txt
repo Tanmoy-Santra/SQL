@@ -1,0 +1,426 @@
+Assignment No : 01
+
+Problem Statement : Create the following tables using the schema given below and insert given data set accordingly.
+
+1. Client_Master (Used to store client information)
+2. Product_Master (Used to store product information)
+3. Salesman_Master (Used to store salesman working for company)
+4. Sales_Order (Used to store client’s orders)
+5. Sales_Order_Details (Used to store client’s orders with details of each product ordered)
+
+1) client_master
+
+SQL> CREATE TABLE Client_Master (
+  2      Client_no VARCHAR2(6) PRIMARY KEY CHECK (Client_no LIKE 'C%'),
+  3      Name VARCHAR2(30) NOT NULL,
+  4      Address1 VARCHAR2(30),
+  5      Address2 VARCHAR2(30),
+  6      City VARCHAR2(15),
+  7      State VARCHAR2(15),
+  8      Pincode NUMBER(6),
+  9      Balance_due NUMBER(10,2)
+ 10  );
+
+Table created.
+
+SQL> DESC Client_Master;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CLIENT_NO                                 NOT NULL VARCHAR2(6)
+ NAME                                      NOT NULL VARCHAR2(30)
+ ADDRESS1                                           VARCHAR2(30)
+ ADDRESS2                                           VARCHAR2(30)
+ CITY                                               VARCHAR2(15)
+ STATE                                              VARCHAR2(15)
+ PINCODE                                            NUMBER(6)
+ BALANCE_DUE                                        NUMBER(10,2)
+
+SQL> INSERT INTO client_master VALUES('C001','Ivan Bayross','P-76','Worli','Bombay','Maharashtra',400054,15000);
+
+1 row created.
+
+SQL> INSERT INTO client_master VALUES('C002','Vandana Satiwala','128','Adams Street','Madras','Tamil Nadu',780001,0);
+
+1 row created.
+
+SQL> INSERT INTO client_master VALUES('C003','Pramada Jaguste','157','Gopalpur','Kolkata','West Bengal',700058,5000);
+
+1 row created.
+
+SQL> INSERT INTO client_master VALUES('C004','Basu Navindgi','A/12','Nariman','Bombay','Maharashtra',400056,0);
+
+1 row created.
+
+SQL> INSERT INTO client_master VALUES('C005','Ravi Shreedharan','B/34','Rajnagar','Delhi','Delhi',100001,2000);
+
+1 row created.
+
+SQL> INSERT INTO client_master VALUES('C006','Rukmini','Q-12','Bandra','Bombay','Maharashtra',400050,0);
+
+1 row created.
+
+
+SQL> set linesize 5000;
+
+SQL> select * from Client_Master;
+
+CLIENT NAME                           ADDRESS1                       ADDRESS2                       CITY            STATE              PINCODE BALANCE_DUE
+------ ------------------------------ ------------------------------ ------------------------------ --------------- --------------- ---------- -----------
+C001   Ivan Bayross                   P-76                           Worli                          Bombay          Maharashtra         400054       15000
+C002   Vandana Satiwala               128                            Adams Street                   Madras          Tamil Nadu          780001           0
+C003   Pramada Jaguste                157                            Gopalpur                       Kolkata         West Bengal         700058        5000
+C004   Basu Navindgi                  A/12                           Nariman                        Bombay          Maharashtra         400056           0
+C005   Ravi Shreedharan               B/34                           Rajnagar                       Delhi           Delhi               100001        2000
+C006   Rukmini                        Q-12                           Bandra                         Bombay          Maharashtra         400050           0
+
+6 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+
+
+2) Product_Master
+
+SQL> CREATE TABLE Product_Master(
+  2        Product_no VARCHAR2(6) PRIMARY KEY CHECK (Product_no LIKE 'P%'),
+  3        Description VARCHAR2(40) NOT NULL,
+  4        Profit_percent NUMBER(4,2) NOT NULL,
+  5        Unit_measure VARCHAR2(10) NOT NULL,
+  6        Qty_on_hand NUMBER(8) NOT NULL,
+  7        Reorder_level NUMBER(8) NOT NULL,
+  8        Sell_price NUMBER(8,2) NOT NULL CHECK (Sell_price>0),
+  9        Cost_price NUMBER(8,2) NOT NULL, CHECK (Cost_PRICE>0)
+ 10  );
+
+Table created.
+
+SQL> desc Product_Master;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ PRODUCT_NO                                            NOT NULL VARCHAR2(6)
+ DESCRIPTION                                           NOT NULL VARCHAR2(40)
+ PROFIT_PERCENT                                        NOT NULL NUMBER(4,2)
+ UNIT_MEASURE                                          NOT NULL VARCHAR2(10)
+ QTY_ON_HAND                                           NOT NULL NUMBER(8)
+ REORDER_LEVEL                                         NOT NULL NUMBER(8)
+ SELL_PRICE                                            NOT NULL NUMBER(8,2)
+ COST_PRICE                                            NOT NULL NUMBER(8,2)
+
+
+SQL> INSERT INTO Product_Master VALUES ('P00001','1.44 Floppies',5,'Piece',100,20,525,500);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P03453','Monitors',6,'Piece',10,3,12000,11280);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P06734','Mouse',5,'Piece',20,5,1050,100);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P07865','1.22 Floppies',5,'Piece',100,20,525,500);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P07868','Keyboard',2,'Piece',10,3,3150,3050);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P07885','CD Drive',2.5,'Piece',10,3,5250,5100);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P07965','540 HDD',4,'Piece',10,3,8400,8000);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P07975','1.44 Drive',5,'Piece',10,3,1050,900);
+
+1 row created.
+
+SQL> INSERT INTO Product_master VALUES('P08865','1.22 Drive',5,'Piece',2,3,1025,850);
+
+1 row created.
+
+SQL> set linesize 5000;
+SQL> select* from Product_Master;
+
+PRODUC DESCRIPTION                              PROFIT_PERCENT UNIT_MEASU QTY_ON_HAND REORDER_LEVEL SELL_PRICE COST_PRICE
+------ ---------------------------------------- -------------- ---------- ----------- ------------- ---------- ----------
+P00001 1.44 Floppies                                         5 Piece              100            20        525        500
+P03453 Monitors                                              6 Piece               10             3      12000      11280
+P06734 Mouse                                                 5 Piece               20             5       1050        100
+P07865 1.22 Floppies                                         5 Piece              100            20        525        500
+P07868 Keyboard                                              2 Piece               10             3       3150       3050
+P07885 CD Drive                                            2.5 Piece               10             3       5250       5100
+P07965 540 HDD                                               4 Piece               10             3       8400       8000
+P07975 1.44 Drive                                            5 Piece               10             3       1050        900
+P08865 1.22 Drive                                            5 Piece                2             3       1025        850
+
+9 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+
+3) Salesman_Master
+
+SQL> CREATE TABLE Salesman_Master (
+  2      Salesman_no VARCHAR2(6) PRIMARY KEY CHECK (Salesman_no LIKE 'S%'),
+  3      Salesman_name VARCHAR2(30) NOT NULL,
+  4      Address1 VARCHAR2(30) NOT NULL,
+  5      Address2 VARCHAR2(30),
+  6      City VARCHAR2(20),
+  7      Pincode NUMBER(8),
+  8      State VARCHAR2(20),
+  9      Sal_amt NUMBER(8,2) NOT NULL CHECK (Sal_amt > 0)
+ 10  );
+
+Table created.
+
+SQL> desc Salesman_Master;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ SALESMAN_NO                                           NOT NULL VARCHAR2(6)
+ SALESMAN_NAME                                         NOT NULL VARCHAR2(30)
+ ADDRESS1                                              NOT NULL VARCHAR2(30)
+ ADDRESS2                                                       VARCHAR2(30)
+ CITY                                                           VARCHAR2(20)
+ PINCODE                                                        NUMBER(8)
+ STATE                                                          VARCHAR2(20)
+ SAL_AMT                                               NOT NULL NUMBER(8,2)
+
+
+SQL> INSERT INTO Salesman_master VALUES('S001','Kiran','A/14','Worli','Bombay',400002,'Maharastra',3000);
+
+1 row created.
+
+SQL> INSERT INTO Salesman_master VALUES('S002','Manish','65','Nariman','Bombay',400001,'Maharastra',3000);
+
+1 row created.
+
+SQL> INSERT INTO Salesman_master VALUES('S003','Ravi','P-7','Bandra','Bombay',400032,'Maharastra',3000);
+
+1 row created.
+
+SQL> INSERT INTO Salesman_master VALUES('S004','Asish','A/5','Juhu','Bombay',400044,'Maharastra',3000);
+
+1 row created.
+
+SQL> select* from  Salesman_Master;
+
+SALESM SALESMAN_NAME                  ADDRESS1                       ADDRESS2                       CITY                 PINCODE STATE           SAL_AMT
+------ ------------------------------ ------------------------------ ------------------------------ -------------------- ------- --------------- -------
+S001   Kiran                          A/14                           Worli                          Bombay                400002 Maharastra         3000
+S002   Manish                         65                             Nariman                        Bombay                400001 Maharastra         3000
+S003   Ravi                           P-7                            Bandra                         Bombay                400032 Maharastra         3000
+S004   Asish                          A/5                            Juhu                           Bombay                400044 Maharastra         3000
+
+SQL> commit;
+
+Commit complete.
+
+
+4) Sales_Order
+
+
+SQL> CREATE TABLE Sales_Order
+  2   (
+  3   Order_no varchar(6),
+  4   Order_date DATE,
+  5   Client_no varchar2(6) ,
+  6   Salesman_no varchar2(6) ,
+  7   Delivery_type char(1) Default 'F',
+  8   Bill_y_n char(1),
+  9   Delivery_date DATE,
+ 10   Order_status varchar2(10),
+ 11   Constraint salesorder_pk PRIMARY KEY(Order_no),
+ 12   Constraint salesorder_ck1 CHECK(Order_no LIKE 'O%'),
+ 13   Constraint salesorder_ck2 CHECK(Delivery_type IN ('P','F')),
+ 14   Constraint salesorder_ck3 CHECK(Delivery_date>=Order_date),
+ 15   Constraint salesorder_ck4 CHECK(Order_status IN ('InProcess','Fullfilled','BackOrder','Cancelled'))
+ 16   );
+
+Table created.
+
+SQL> desc Sales_Order;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ ORDER_NO                                              NOT NULL VARCHAR2(6)
+ ORDER_DATE                                                     DATE
+ CLIENT_NO                                                      VARCHAR2(6)
+ SALESMAN_NO                                                    VARCHAR2(6)
+ DELIVERY_TYPE                                                  CHAR(1)
+ BILL_Y_N                                                       CHAR(1)
+ DELIVERY_DATE                                                  DATE
+ ORDER_STATUS                                                   VARCHAR2(10)
+
+SQL> INSERT INTO Sales_Order VALUES ('O19001', TO_DATE('12-Jan-96', 'DD-Mon-YY'), 'C001', 'S001', 'F', 'N', TO_DATE('20-Jan-96', 'DD-Mon-YY'), 'InProcess');
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order VALUES ('O19002', TO_DATE('25-Jan-96', 'DD-Mon-YY'), 'C002', 'S002', 'P', 'N', TO_DATE('27-Jan-96', 'DD-Mon-YY'), 'BackOrder');
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order VALUES ('O46865', TO_DATE('18-Feb-96', 'DD-Mon-YY'), 'C003', 'S003', 'F', 'Y', TO_DATE('20-Feb-96', 'DD-Mon-YY'), 'Fullfilled');
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order VALUES ('O19003', TO_DATE('03-Apr-96', 'DD-Mon-YY'), 'C001', 'S001', 'F', 'Y', TO_DATE('07-Apr-96', 'DD-Mon-YY'), 'Fullfilled');
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order VALUES ('O46866', TO_DATE('20-May-96', 'DD-Mon-YY'), 'C004', 'S002', 'P', 'N', TO_DATE('22-May-96', 'DD-Mon-YY'), 'Cancelled');
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order VALUES ('O19008', TO_DATE('24-May-96', 'DD-Mon-YY'), 'C005', 'S004', 'F', 'N', TO_DATE('26-May-96', 'DD-Mon-YY'), 'InProcess');
+
+1 row created.
+
+SQL> select * from Sales_Order;
+
+ORDER_ ORDER_DAT CLIENT SALESM D B DELIVERY_ ORDER_STAT
+------ --------- ------ ------ - - --------- ----------
+O19001 12-JAN-96 C001   S001   F N 20-JAN-96 InProcess
+O19002 25-JAN-96 C002   S002   P N 27-JAN-96 BackOrder
+O46865 18-FEB-96 C003   S003   F Y 20-FEB-96 Fullfilled
+O19003 03-APR-96 C001   S001   F Y 07-APR-96 Fullfilled
+O46866 20-MAY-96 C004   S002   P N 22-MAY-96 Cancelled
+O19008 24-MAY-96 C005   S004   F N 26-MAY-96 InProcess
+
+6 rows selected.
+
+SQL> alter table Sales_Order add constraint salesorder_fk1 foreign key(Client_no) references Client_Master(Client_no);
+
+Table altered.
+
+SQL> alter table Sales_Order add constraint salesorder_fk2 foreign key(Salesman_no) references Salesman_Master(Salesman_no);
+
+Table altered.
+
+SQL> commit;
+
+Commit complete.
+
+
+
+
+5) Sales_Order_Details
+
+
+SQL> create table Sales_Order_Details
+  2   (
+  3   Order_no varchar2(6),
+  4   Product_no varchar2(6),
+  5   Qty_ordered number(8),
+  6   Qty_disp number(8),
+  7   Product_rate number(10,2)
+  8   );
+
+Table created.
+
+SQL> desc sales_order_details;
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ ORDER_NO                                                       VARCHAR2(6)
+ PRODUCT_NO                                                     VARCHAR2(6)
+ QTY_ORDERED                                                    NUMBER(8)
+ QTY_DISP                                                       NUMBER(8)
+ PRODUCT_RATE                                                   NUMBER(10,2)
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19001','P00001',4,4,525);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19001','P07965',2,1,8400);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19001','P07885',2,1,5250);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19002','P00001',10,0,525);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46865','P07868',3,3,3150);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46865','P07885',3,1,52500);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46865','P00001',10,10,525);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46865','P03453',4,4,1050);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19003','P03453',2,2,1050);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19003','P06734',1,1,12000);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46866','P07965',1,0,8400);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O46866','P07975',1,0,1050);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19008','P00001',10,5,525);
+
+1 row created.
+
+SQL> INSERT INTO Sales_Order_Details VALUES('O19008','P07975',5,3,1050);
+
+1 row created.
+
+SQL> select * from Sales_Order_Details;
+
+ORDER_ PRODUC QTY_ORDERED   QTY_DISP PRODUCT_RATE
+------ ------ ----------- ---------- ------------
+O19001 P00001           4          4          525
+O19001 P07965           2          1         8400
+O19001 P07885           2          1         5250
+O19002 P00001          10          0          525
+O46865 P07868           3          3         3150
+O46865 P07885           3          1        52500
+O46865 P00001          10         10          525
+O46865 P03453           4          4         1050
+O19003 P03453           2          2         1050
+O19003 P06734           1          1        12000
+O46866 P07965           1          0         8400
+O46866 P07975           1          0         1050
+O19008 P00001          10          5          525
+O19008 P07975           5          3         1050
+
+14 rows selected.
+
+SQL> alter table Sales_Order_Details add constraint sales_order_details_fk1 foreign key(Order_no) references Sales_Order(Order_no);
+
+Table altered.
+
+SQL> alter table Sales_Order_Details add constraint sales_order_details_fk2 foreign key(Product_no) references Product_Master(Product_no);
+
+Table altered.
+
+SQL> commit;
+
+Commit complete.
+
+
